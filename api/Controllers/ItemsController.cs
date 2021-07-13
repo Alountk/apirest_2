@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using api.DTOs;
 using api.Entities;
 using api.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -18,15 +20,15 @@ namespace api.Controllers
     }
 
     [HttpGet]
-    public IEnumerable<Item> GetItems()
+    public IEnumerable<ItemDTO> GetItems()
     {
-      var items = repository.GetItems();
+      var items = repository.GetItems().Select( item => item.AsDto());
       return items;
     }
 
     // GET /items/{id}
     [HttpGet("{id}")]
-    public ActionResult<Item> GetItem(Guid id)
+    public ActionResult<ItemDTO> GetItem(Guid id)
     {
       var item = repository.GetItem(id);
       
@@ -35,7 +37,7 @@ namespace api.Controllers
         return NotFound();
       }
       
-      return item;
+      return item.AsDto();
     }
   }
 }
