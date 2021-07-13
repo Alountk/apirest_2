@@ -11,10 +11,10 @@ namespace api.Controllers
   [Route("items")] 
   public class ItemsController : ControllerBase
   {
-    private readonly InMemItemsRepository repository;
-    public ItemsController()
+    private readonly IItemsRepository repository;
+    public ItemsController(IItemsRepository _repository)
     {
-      repository = new InMemItemsRepository();
+      repository = _repository;
     }
 
     [HttpGet]
