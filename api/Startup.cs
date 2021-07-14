@@ -42,7 +42,9 @@ namespace api
 
             services.AddSingleton<IItemsRepository, MongoDbItemsRepository>();
 
-            services.AddControllers();
+            services.AddControllers(options => {
+                options.SuppressAsyncSuffixInActionNames = false;
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "api_rest", Version = "0.1" });
