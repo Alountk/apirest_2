@@ -31,7 +31,7 @@ namespace api.Repositories
 
         public void UpdateItem(Item item)
         {
-            var index = item.findIndex(existingItem => existingItem.Id === item.Id);
+            var index = items.FindIndex(existingItem => existingItem.Id == item.Id);
             items[index] = item;
         }
     }

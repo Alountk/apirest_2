@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace api.DTOs
 {
-    public class CreateItemDTO
+    public class UpdateItemDTO
     {
         [Required]
         [MaxLength(50)]

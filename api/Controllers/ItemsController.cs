@@ -44,14 +44,37 @@ namespace api.Controllers
         [HttpPost]
         public ActionResult<ItemDTO> CreateItem(CreateItemDTO itemDTO)
         {
-            Item item = new(){
+            Item item = new()
+            {
                 Id = Guid.NewGuid(),
                 Name = itemDTO.Name,
                 Price = itemDTO.Price,
                 CreatedDate = DateTimeOffset.UtcNow
             };
             repository.CreateItem(item);
-            return CreatedAtAction(nameof(GetItem), new {id = item.Id}, item.AsDto());
+            return CreatedAtAction(nameof(GetItem), new { id = item.Id }, item.AsDto());
+        }
+
+        // PUT /items/{id}
+        [HttpPut("{id}")]
+        public ActionResult UpdateItem(Guid id, UpdateItemDTO itemDTO)
+        {
+            var existingItem = repository.GetItem(id);
+
+            if (existingItem is null)
+            {
+                return NotFound();
+            }
+
+            Item updatedItem = existingItem with
+            {
+                Name = itemDTO.Name,
+                Price = itemDTO.Price
+            };
+
+            repository.UpdateItem(updatedItem);
+
+            return NoContent();
         }
     }
 }
