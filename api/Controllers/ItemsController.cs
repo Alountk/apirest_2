@@ -8,36 +8,50 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
 {
-  [ApiController]
-  // [Route("[controller]")] 
-  [Route("items")] 
-  public class ItemsController : ControllerBase
-  {
-    private readonly IItemsRepository repository;
-    public ItemsController(IItemsRepository _repository)
+    [ApiController]
+    // [Route("[controller]")] 
+    [Route("items")]
+    public class ItemsController : ControllerBase
     {
-      repository = _repository;
-    }
+        private readonly IItemsRepository repository;
+        public ItemsController(IItemsRepository _repository)
+        {
+            repository = _repository;
+        }
 
-    [HttpGet]
-    public IEnumerable<ItemDTO> GetItems()
-    {
-      var items = repository.GetItems().Select( item => item.AsDto());
-      return items;
-    }
+        [HttpGet]
+        public IEnumerable<ItemDTO> GetItems()
+        {
+            var items = repository.GetItems().Select(item => item.AsDto());
+            return items;
+        }
 
-    // GET /items/{id}
-    [HttpGet("{id}")]
-    public ActionResult<ItemDTO> GetItem(Guid id)
-    {
-      var item = repository.GetItem(id);
-      
-      if(item is null)
-      {
-        return NotFound();
-      }
-      
-      return item.AsDto();
+        // GET /items/{id}
+        [HttpGet("{id}")]
+        public ActionResult<ItemDTO> GetItem(Guid id)
+        {
+            var item = repository.GetItem(id);
+
+            if (item is null)
+            {
+                return NotFound();
+            }
+
+            return item.AsDto();
+        }
+
+        // POST /items
+        [HttpPost]
+        public ActionResult<ItemDTO> CreateItem(CreateItemDTO itemDTO)
+        {
+            Item item = new(){
+                Id = Guid.NewGuid(),
+                Name = itemDTO.Name,
+                Price = itemDTO.Price,
+                CreatedDate = DateTimeOffset.UtcNow
+            };
+            repository.CreateItem(item);
+            return CreatedAtAction(nameof(GetItem), new {id = item.Id}, item.AsDto());
+        }
     }
-  }
 }
