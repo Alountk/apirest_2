@@ -46,7 +46,7 @@ kubectl get deployment
 kubectl get pods
 kubectl logs skeletonapi-deployment-848bf9fd95-sbpzh
 
-
+use kubectl port-forward ${pod} 8080:80 if you use minikube
 
 
 [Guide](https://www.youtube.com/watch?v=ZXdFisA_hOY&ab_channel=freeCodeCamp.org)
