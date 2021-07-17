@@ -24,10 +24,13 @@ namespace Skeleton.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<ItemDTO>> GetItemsAsync()
+        public async Task<IEnumerable<ItemDTO>> GetItemsAsync(string name = null)
         {
             var items = (await _repository.GetItemsAsync())
                         .Select(item => item.AsDto());
+
+            if(!string.IsNullOrWhiteSpace(name))
+                items = items.Where( item => item.Name.Contains(name, StringComparison.OrdinalIgnoreCase));
 
             _logger.LogInformation($"{DateTime.UtcNow.ToString("hh:mm:ss")}: Retrieve {items.Count()} items");
 
@@ -56,6 +59,7 @@ namespace Skeleton.Api.Controllers
             {
                 Id = Guid.NewGuid(),
                 Name = itemDTO.Name,
+                Description = itemDTO.Description,
                 Price = itemDTO.Price,
                 CreatedDate = DateTimeOffset.UtcNow
             };
@@ -74,13 +78,10 @@ namespace Skeleton.Api.Controllers
                 return NotFound();
             }
 
-            Item updatedItem = existingItem with
-            {
-                Name = itemDTO.Name,
-                Price = itemDTO.Price
-            };
+            existingItem.Name = itemDTO.Name;
+            existingItem.Price = itemDTO.Price;
 
-            await _repository.UpdateItemAsync(updatedItem);
+            await _repository.UpdateItemAsync(existingItem);
 
             return NoContent();
         }
