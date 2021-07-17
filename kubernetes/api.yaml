@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: skeletonapi
-        image: alountk/skeletonapi:v1
+        image: alountk/skeletonapi:v2
         resources:
           limits:
             memory: "128Mi"

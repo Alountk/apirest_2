@@ -61,6 +61,9 @@ docker build -t skeletonapi:v${number version} .
 // and push new image to docker hub
 docker push alountk/skeletonapi:v2
 
+// for watch logs in container
+kubectl logs ${pod} -f
+
 
 
 
