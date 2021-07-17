@@ -15,21 +15,21 @@ namespace Skeleton.Api.Controllers
     [Route("items")]
     public class ItemsController : ControllerBase
     {
-        private readonly IItemsRepository repository;
-        private readonly ILogger<ItemsController> logger;
-        public ItemsController(IItemsRepository _repository, ILogger<ItemsController> _logger)
+        private readonly IItemsRepository _repository;
+        private readonly ILogger<ItemsController> _logger;
+        public ItemsController(IItemsRepository repository, ILogger<ItemsController> logger)
         {
-            repository = _repository;
-            logger = _logger;
+            _repository = repository;
+            _logger = logger;
         }
 
         [HttpGet]
         public async Task<IEnumerable<ItemDTO>> GetItemsAsync()
         {
-            var items = (await repository.GetItemsAsync())
+            var items = (await _repository.GetItemsAsync())
                         .Select(item => item.AsDto());
 
-            logger.LogInformation($"{DateTime.UtcNow.ToString("hh:mm:ss")}: Retrieve {items.Count()} items");
+            _logger.LogInformation($"{DateTime.UtcNow.ToString("hh:mm:ss")}: Retrieve {items.Count()} items");
 
             return items;
         }
@@ -38,7 +38,7 @@ namespace Skeleton.Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<ItemDTO>> GetItemAsync(Guid id)
         {
-            var item = await repository.GetItemAsync(id);
+            var item = await _repository.GetItemAsync(id);
 
             if (item is null)
             {
@@ -59,7 +59,7 @@ namespace Skeleton.Api.Controllers
                 Price = itemDTO.Price,
                 CreatedDate = DateTimeOffset.UtcNow
             };
-            await repository.CreateItemAsync(item);
+            await _repository.CreateItemAsync(item);
             return CreatedAtAction(nameof(GetItemAsync), new { id = item.Id }, item.AsDto());
         }
 
@@ -67,7 +67,7 @@ namespace Skeleton.Api.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateItem(Guid id, UpdateItemDTO itemDTO)
         {
-            var existingItem = await repository.GetItemAsync(id);
+            var existingItem = await _repository.GetItemAsync(id);
 
             if (existingItem is null)
             {
@@ -80,7 +80,7 @@ namespace Skeleton.Api.Controllers
                 Price = itemDTO.Price
             };
 
-            await repository.UpdateItemAsync(updatedItem);
+            await _repository.UpdateItemAsync(updatedItem);
 
             return NoContent();
         }
@@ -89,14 +89,14 @@ namespace Skeleton.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteItem(Guid id)
         {
-            var existingItem = await repository.GetItemAsync(id);
+            var existingItem = await _repository.GetItemAsync(id);
 
             if (existingItem is null)
             {
                 return NotFound();
             }
 
-            await repository.DeleteItemAsync(id);
+            await _repository.DeleteItemAsync(id);
 
             return NoContent();
         }

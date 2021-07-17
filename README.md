@@ -64,8 +64,20 @@ docker push alountk/skeletonapi:v2
 // for watch logs in container
 kubectl logs ${pod} -f
 
+## UnitTest
 
+// create unittests
+dotnet new xunit -n Skeleton.UnitTests
 
+// Add reference Skeleton.Api to Unitests
+dotnet add reference ../Skeleton.Api/Skeleton.Api.csproj
 
+// Make a test with this template name
+UnitOfWork_StateUnderTest_ExpectedBehavior()
+
+### "Thanks to..."
+
+[Julio Casal](https://www.youtube.com/redirect?event=video_description&redir_token=QUFFLUhqbU8xbGJ3bF9JbGFDZE54czk2cTNQTUxZVnlNUXxBQ3Jtc0ttcXllRXg4WVFKLVhRTFBReEpvMjlnNnhSSzlPVFA2dGN2OWRiUy1iZDhhcmlvLTczbkVGTWoyTXo1TFk3WUJqQ3M0Wk5kaDFRMW9oY2I1THhOYmlrZUlDY19pSTBNRWtDVXRsUzF6NmdhaG9UcXVDVQ&q=https%3A%2F%2Fdotnetmicroservices.com)
+#### Youtube Tutorial Video
 
 [Guide](https://www.youtube.com/watch?v=ZXdFisA_hOY&ab_channel=freeCodeCamp.org)
