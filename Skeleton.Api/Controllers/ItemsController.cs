@@ -65,7 +65,7 @@ namespace Skeleton.Api.Controllers
 
         // PUT /items/{id}
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateItem(Guid id, UpdateItemDTO itemDTO)
+        public async Task<ActionResult> UpdateItemAsync(Guid id, UpdateItemDTO itemDTO)
         {
             var existingItem = await _repository.GetItemAsync(id);
 
@@ -87,7 +87,7 @@ namespace Skeleton.Api.Controllers
 
         // DELETE /items/{id}
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteItem(Guid id)
+        public async Task<ActionResult> DeleteItemAsync(Guid id)
         {
             var existingItem = await _repository.GetItemAsync(id);
 
