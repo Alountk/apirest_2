@@ -46,7 +46,23 @@ kubectl get deployment
 kubectl get pods
 kubectl logs skeletonapi-deployment-848bf9fd95-sbpzh
 
-use kubectl port-forward ${pod} 8080:80 if you use minikube
+// if use minikube you should forward port
+kubectl port-forward ${pod} 8080:80
+
+// delete pod
+kubectl delete pod ${pod}
+
+// replicate pod
+kubectl scale deployments/skeletonapi-deployment --replicas=3
+
+// if you add changes in code you should create a new version docker build
+docker build -t skeletonapi:v${number version} .
+
+// and push new image to docker hub
+docker push alountk/skeletonapi:v2
+
+
+
 
 
 [Guide](https://www.youtube.com/watch?v=ZXdFisA_hOY&ab_channel=freeCodeCamp.org)

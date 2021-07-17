@@ -6,6 +6,7 @@ using api.DTOs;
 using api.Entities;
 using api.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace api.Controllers
 {
@@ -15,9 +16,11 @@ namespace api.Controllers
     public class ItemsController : ControllerBase
     {
         private readonly IItemsRepository repository;
-        public ItemsController(IItemsRepository _repository)
+        private readonly ILogger<ItemsController> logger;
+        public ItemsController(IItemsRepository _repository, ILogger<ItemsController> _logger)
         {
             repository = _repository;
+            logger = _logger;
         }
 
         [HttpGet]
@@ -25,6 +28,9 @@ namespace api.Controllers
         {
             var items = (await repository.GetItemsAsync())
                         .Select(item => item.AsDto());
+
+            logger.LogInformation($"{DateTime.UtcNow.ToString("hh:mm:ss")}: Retrieve {items.Count()} items");
+
             return items;
         }
 
