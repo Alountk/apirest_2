@@ -33,7 +33,7 @@ namespace Skeleton.Api.Repositories
 
     public async Task<Article> GetArticleAsync(Guid id)
     {
-      var filter = filterBuilder.Eq(item => item.Id, id);
+      var filter = filterBuilder.Eq(article => article.Id, id);
       return await articlesCollection.Find(filter).SingleOrDefaultAsync();
     }
 

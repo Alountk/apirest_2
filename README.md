@@ -1,9 +1,10 @@
 # API Rest DOTNET
 
 ## Secrets
-
+--IMPORTANT-- When clone repository create a userSecret and add in .csproj
 dotnet user-secrets init
-dotnet user-secrets set MongoDbSettings:Password ###PASSWORD###
+dotnet user-secrets set MongoDbSettings:Password ${Password}
+[video](https://youtu.be/ZXdFisA_hOY?t=9380)
 
 ## Docker
 
@@ -40,6 +41,7 @@ kubectl create secret generic skeletonapi-secrets --from-literal=mongodb-passwor
 
 // Go to Kubernetes folder in proyects
 kubectl apply -f api.yaml
+kubectl apply -f mongodb.yaml
 
 // get deployments, pods and  logs
 kubectl get deployment

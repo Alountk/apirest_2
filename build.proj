@@ -1,4 +1,5 @@
-<Project Sdk="Microsoft.Build.Traversal/3.0.3">
+﻿<Project Sdk="Microsoft.Build.Traversal/3.0.3"><PropertyGroup>  <UserSecretsId>001e0b8d-16b9-401d-b5af-b179b8eb79f9</UserSecretsId>
+  </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="**/*.*proj" />
     </ItemGroup>
